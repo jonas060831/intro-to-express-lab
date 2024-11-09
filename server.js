@@ -38,7 +38,7 @@ app.get('/roll/:maxroll', (req, res) => {
 
     //needed parseInt here to convert to number 
     maxroll = parseInt(maxroll)
-    
+
     //guard let first if maxroll is not a number
     if(isNaN(maxroll)) return res.send(`You must specify a number.`)
     
@@ -48,6 +48,29 @@ app.get('/roll/:maxroll', (req, res) => {
 
     return res.send(`You rolled a ${randomWholeNumberBetween0AndTheGivenNumber}.`)
 
+})
+
+
+//3. I Want THAT One!
+app.get('/collectibles/:collectiblesIndex', (req, res) => {
+    const collectibles = [
+        { name: 'shiny ball', price: 5.95 },
+        { name: 'autographed picture of a dog', price: 10 },
+        { name: 'vintage 1970s yogurt SOLD AS-IS', price: 0.99 }
+    ];
+    
+    //get the params and convert it to int
+    const collectiblesIndex = parseInt(req.params.collectiblesIndex)
+    //this will result to either undefined or the object corresponding the collectiblesIndex
+    const collectible = collectibles.find((collectible, index) => index === collectiblesIndex)
+    
+    //first fork is if the collectible is not an index in the array
+    //which is undefined for some reason i tried adding ! to collectibles like so !collectibles and it turn the value to true
+
+    if(!collectible) return res.send("This item is not yet in stock. Check back soon!")
+    
+    //if the index exist then simply return the string So, collectibles.name For collectibles.price, it can be yours!”
+    res.send(`So, you want the ${collectible.name}? For ${collectible.price}, it can be yours!`)
 })
 
 
