@@ -24,12 +24,31 @@ app.get('/greetings/:username', (req, res) => {
     //test
     //console.log(randomInt)
     //res.send(`Hello there, ${username}!`)
-    console.log(randomInt)
     if(randomInt) return res.send(`What a delight it is to see you once more, ${username}`)
     
     return res.send(`Hell there, ${username}`)
 })
 
+//2. Rolling the Dice
+app.get('/roll/:maxroll', (req, res) => {
+
+    
+    //get the params which is currently string
+    let maxroll = req.params.maxroll
+
+    //needed parseInt here to convert to number 
+    maxroll = parseInt(maxroll)
+    
+    //guard let first if maxroll is not a number
+    if(isNaN(maxroll)) return res.send(`You must specify a number.`)
+    
+    //if maxroll is indeed a number then you can generate a number between 0 >= maxroll
+    const randomWholeNumberBetween0AndTheGivenNumber = randomNumberGenerator(0, maxroll)
+
+
+    return res.send(`You rolled a ${randomWholeNumberBetween0AndTheGivenNumber}.`)
+
+})
 
 
 ///D. listen to PORT 3000
