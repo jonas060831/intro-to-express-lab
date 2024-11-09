@@ -73,6 +73,57 @@ app.get('/collectibles/:collectiblesIndex', (req, res) => {
     res.send(`So, you want the ${collectible.name}? For ${collectible.price}, it can be yours!`)
 })
 
+//4. Filter Shoes by Query Parameters
+const shoes = [
+    { name: "Birkenstocks", price: 50, type: "sandal" },
+    { name: "Air Jordans", price: 500, type: "sneaker" },
+    { name: "Air Mahomeses", price: 501, type: "sneaker" },
+    { name: "Utility Boots", price: 20, type: "boot" },
+    { name: "Velcro Sandals", price: 15, type: "sandal" },
+    { name: "Jet Boots", price: 1000, type: "boot" },
+    { name: "Fifty-Inch Heels", price: 175, type: "heel" }
+];
+
+
+app.get('/shoes', (req, res) => {
+
+    console.log(req.query)
+    //get the min-price query params
+    const min_price = parseInt(req.query['min-price'])
+    //get the max-price query params
+    const max_price = parseInt(req.query['max-price'])
+    const shoe_type = req.query['type']
+
+    // //forks 
+    // //1. min-price
+    // //2. max-price
+    // //3. type
+    // //4. no parameters show all
+
+   //i need to handle a case where min, max and type is present
+   //i need to handle a case where only min is present
+   // i need to handle a case where only max is present
+   //i need to handle a case where only type is present
+   //i need to handle a case where none of the req.query is present
+   //or any of the 1 or 2 of the req.query is present
+
+   const filteredShoes =  shoes.filter( shoe => {
+    
+    //if any of the  { min-price, max-price, type } req.query
+    //is not present then it will default to true so the current shoe will NOT get filtered by its req.query { min-price, max-price, type }
+    const meetsMin = min_price ? shoe.price >= min_price : true
+    const meetsMax = max_price ? shoe.price <= max_price : true
+    const meetsType = shoe_type ? shoe.type === shoe_type : true
+    
+    //if any of the above evaluate to false then the current shoe will not be added to the filtered result
+    return meetsMin && meetsMax && meetsType
+   })
+
+   return res.send(filteredShoes)
+
+})
+
+
 
 ///D. listen to PORT 3000
 
